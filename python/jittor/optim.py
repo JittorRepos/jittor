@@ -13,7 +13,7 @@
 # ***************************************************************
 import jittor as jt
 import numpy as np
-
+from collections.abc import Iterator as pyIterator
 class Optimizer(object):
     """ Basic class of Optimizer.
 
@@ -26,7 +26,9 @@ class Optimizer(object):
         self.param_groups = []
         self.lr = lr
         self.param_sync_iter = param_sync_iter
-
+        # params should a list of dict 
+        if isinstance(params,pyIterator):
+            params = list(params)
         assert len(params) > 0, "Length of parameters should not be zero"
         if not isinstance(params[0], dict):
             params = [{'params': params}]
